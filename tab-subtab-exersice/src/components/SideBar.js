@@ -1,37 +1,29 @@
 import React from "react";
 
-const SideBar = ({ tabs, selectedTab, changeTab }) => {
-  return (
-    <ul className="list-container">
-      {tabs.map(({ name, subTabs, id: tabId }) => (
+const SideBar = ({ tabs, selectedTab, selectedSubTab, changeTab }) => (
+  <ul className="list-container">
+    {tabs.map(({ name, subTabs, id: tabId }) => {
+      const isActiveTab = selectedTab === tabId;
+      const tabClassName = isActiveTab ? "active" : "";
+      const hasSubTabs = !!subTabs;
+      return (
         <li className="list-item" key={tabId}>
-          <span
-            onClick={() => changeTab(tabId)}
-            className={selectedTab.tab === tabId ? "active" : ""}
-          >
+          <span onClick={() => changeTab(tabId)} className={tabClassName}>
             {name}
           </span>
-          {selectedTab.tab === tabId && (
-            <ul className="list-container">
-              {subTabs.map(({ name, id: subtabId }) => (
-                <li
-                  className="list-item"
-                  key={subtabId}
-                  onClick={() => changeTab(tabId, subtabId)}
-                >
-                  <span
-                    className={selectedTab.subtab === subtabId ? "active" : ""}
-                  >
-                    {name}
-                  </span>
-                </li>
-              ))}
-            </ul>
+          {isActiveTab && hasSubTabs ? (
+            <SideBar
+              tabs={subTabs}
+              selectedTab={selectedSubTab}
+              changeTab={(subTabId) => changeTab(tabId, subTabId)}
+            />
+          ) : (
+            <></>
           )}
         </li>
-      ))}
-    </ul>
-  );
-};
+      );
+    })}
+  </ul>
+);
 
 export default SideBar;
