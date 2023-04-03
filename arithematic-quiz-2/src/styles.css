@@ -1,0 +1,10 @@
+.App {
+  font-family: sans-serif;
+  text-align: center;
+}
+.quiz-box {
+  margin: 10px;
+  height: 600px;
+  background-color: #d3d3d3;
+  overflow: auto;
+}
