@@ -1,6 +1,5 @@
 import TabContainer from "./components/TabContainer";
 import "./styles.css";
 
-export default function App() {
-  return <TabContainer />;
-}
+const App = () => <TabContainer />;
+export default App;

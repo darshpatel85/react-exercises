@@ -35,3 +35,7 @@ body {
   margin: 0;
   color: rgb(115, 102, 254);
 }
+
+.sidebar-container {
+  width: "max-cntent";
+}

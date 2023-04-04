@@ -1,24 +1,31 @@
 import React from "react";
 
-const SideBar = ({ tabs, selectedTab, selectedSubTab, changeTab }) => (
+const SideBar = ({ tabs, selectedTab, selectedSubTab, onTabChange }) => (
   <ul className="list-container">
-    {tabs.map(({ name, subTabs, id: tabId }) => {
+    {tabs.map(({ name, subTabs = [], id: tabId }) => {
       const isActiveTab = selectedTab === tabId;
       const tabClassName = isActiveTab ? "active" : "";
-      const hasSubTabs = !!subTabs;
+      const hasSubTabs = subTabs.length > 0;
+
+      const handleTabChange = () => {
+        onTabChange(tabId);
+      };
+
+      const handleSubTabChange = (subTabId) => {
+        onTabChange(tabId, subTabId);
+      };
+
       return (
         <li className="list-item" key={tabId}>
-          <span onClick={() => changeTab(tabId)} className={tabClassName}>
+          <span onClick={handleTabChange} className={tabClassName}>
             {name}
           </span>
-          {isActiveTab && hasSubTabs ? (
+          {isActiveTab && hasSubTabs && (
             <SideBar
               tabs={subTabs}
               selectedTab={selectedSubTab}
-              changeTab={(subTabId) => changeTab(tabId, subTabId)}
+              onTabChange={handleSubTabChange}
             />
-          ) : (
-            <></>
           )}
         </li>
       );
