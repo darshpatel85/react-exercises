@@ -1,10 +1,10 @@
 import { useContext } from "react";
-import { QuizContext } from "../context/QuizContext";
+
+import { QuizContext } from "../../context/QuizContext";
 
 const Header = () => {
-  const { timeLimit, minLimit, maxLimit, questionCount } = useContext(
-    QuizContext
-  );
+  const { timeLimit, minLimit, maxLimit, questionCount } =
+    useContext(QuizContext);
 
   return (
     <>

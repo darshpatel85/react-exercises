@@ -4,24 +4,25 @@ import { SUBMIT_QUESTION } from "./actions";
 const quizContextReducer = (state, { type, payload }) => {
   switch (type) {
     case SUBMIT_QUESTION: {
-      let score = state.score;
-      const questions = [...state.questions];
-      let isStart = true;
-      let response = payload && parseFloat(payload).toFixed(FLOATING_POINT);
+      let { score, currentQuestionIndex, questionCount, questions } = state;
 
-      questions[state.currentQuestionIndex].response = response;
-      if (response === state.questions[state.currentQuestionIndex].answer) {
+      //if current question is last question than finish the game
+      const started = !(currentQuestionIndex === questionCount - 1);
+
+      const response = payload && parseFloat(payload).toFixed(FLOATING_POINT);
+      questions[currentQuestionIndex].response = response;
+
+      //if the answer is correct increase score by 1
+      if (response === questions[currentQuestionIndex].answer) {
         score += 1;
       }
-      if (state.currentQuestionIndex === state.questionCount - 1)
-        isStart = false;
 
       return {
         ...state,
-        isStart,
+        started,
         score,
         questions,
-        currentQuestionIndex: state.currentQuestionIndex + 1
+        currentQuestionIndex: currentQuestionIndex + 1,
       };
     }
     default:

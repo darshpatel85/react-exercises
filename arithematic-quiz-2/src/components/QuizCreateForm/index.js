@@ -1,4 +1,5 @@
 import { useState } from "react";
+
 import Form from "react-bootstrap/Form";
 
 const defaultQuizData = {
@@ -6,29 +7,29 @@ const defaultQuizData = {
   maxLimit: "",
   timeLimit: "",
   questionCount: "",
-  operations: []
+  operations: [],
 };
+const OPERATORS = ["+", "-", "*", "/"];
 
 const QuizCreateForm = ({ addQuiz }) => {
-  const [quizData, setQuizData] = useState({ ...defaultQuizData });
+  const [quizData, setQuizData] = useState(defaultQuizData);
 
   const handleChange = (e) => {
-    if (e.target.name === "operations") {
-      if (e.target.checked) {
+    const { name, value, checked } = e.target;
+    if (name === "operations") {
+      if (checked) {
         setQuizData({
           ...quizData,
-          operations: [...quizData.operations, e.target.value]
+          operations: [...quizData.operations, value],
         });
       } else {
         setQuizData({
           ...quizData,
-          operations: quizData.operations.filter(
-            (item) => item !== e.target.value
-          )
+          operations: quizData.operations.filter((item) => item !== value),
         });
       }
     } else {
-      setQuizData({ ...quizData, [e.target.name]: parseInt(e.target.value) });
+      setQuizData({ ...quizData, [name]: parseInt(value) });
     }
   };
 
@@ -91,7 +92,7 @@ const QuizCreateForm = ({ addQuiz }) => {
             </Form.Group>
             <Form.Group className="col-md-6 mb-3" controlId="operations">
               <Form.Label>Operations</Form.Label>
-              {["+", "-", "*", "/"].map((operator) => (
+              {OPERATORS.map((operator) => (
                 <Form.Check
                   key={operator}
                   inline

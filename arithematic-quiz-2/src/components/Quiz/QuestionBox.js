@@ -1,17 +1,21 @@
 import { useCallback, useContext, useEffect, useMemo, useState } from "react";
-import { QuizContext } from "../context/QuizContext";
-import { SUBMIT_QUESTION } from "../context/actions";
+
+import { QuizContext } from "../../context/QuizContext";
+
+import { SUBMIT_QUESTION } from "../../context/actions";
 
 const QuestionBox = ({ resetTime, timer }) => {
-  const { questions, currentQuestionIndex } = useContext(QuizContext);
+  const { questions, currentQuestionIndex, dispatch } = useContext(QuizContext);
+  const [answerInput, setAnswerInput] = useState("");
+
   const { leftOperand, rightOperand, operator } = useMemo(
     () => ({
-      ...questions[currentQuestionIndex]
+      ...questions[currentQuestionIndex],
     }),
     [currentQuestionIndex, questions]
   );
-  const [answerInput, setAnswerInput] = useState("");
-  const { dispatch } = useContext(QuizContext);
+
+  const handleOnChange = (e) => setAnswerInput(e.target.value);
 
   const submitQuestion = useCallback(() => {
     dispatch({ type: SUBMIT_QUESTION, payload: answerInput });
@@ -33,7 +37,7 @@ const QuestionBox = ({ resetTime, timer }) => {
       <div className="col-md-4">
         <input
           value={answerInput}
-          onChange={(e) => setAnswerInput(e.target.value)}
+          onChange={handleOnChange}
           type="number"
           className="answer-input form-control"
         />

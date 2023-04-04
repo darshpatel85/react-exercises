@@ -1,7 +1,9 @@
+import { useContext, useEffect, useState } from "react";
+
 import QuestionBox from "./QuestionBox";
 import GameTimer from "./GameTimer";
-import { useContext, useEffect, useState } from "react";
-import { QuizContext } from "../context/QuizContext";
+
+import { QuizContext } from "../../context/QuizContext";
 
 const GameBox = () => {
   const { timeLimit } = useContext(QuizContext);
@@ -11,12 +13,14 @@ const GameBox = () => {
     const timerFunction = () => {
       setTimer((timer) => timer - 1);
     };
+    const clearTimer = () => clearInterval(timerId);
+
     const timerId = setInterval(timerFunction, 1000);
-    return () => clearInterval(timerId);
+    return clearTimer;
   }, []);
 
   const resetTime = () => {
-    setTimer(() => timeLimit);
+    setTimer(timeLimit);
   };
 
   return (

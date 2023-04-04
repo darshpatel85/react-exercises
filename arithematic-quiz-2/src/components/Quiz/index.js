@@ -1,22 +1,24 @@
 import { useContext } from "react";
-import { QuizContext } from "../context/QuizContext";
+
 import GameBox from "./GameBox";
 import Header from "./Header";
 import ScoreBoard from "./ScoreBoard";
 import ScoreCard from "./ScoreCard";
 
+import { QuizContext } from "../../context/QuizContext";
+
 const Quiz = () => {
-  const { isStart } = useContext(QuizContext);
+  const { started } = useContext(QuizContext);
 
   return (
     <div className="col-md-4">
       <div className="quiz-box">
         <Header />
-        {isStart && <GameBox />}
+        {started && <GameBox />}
         <br />
         <ScoreCard />
         <br />
-        {!isStart && <ScoreBoard />}
+        {!started && <ScoreBoard />}
       </div>
     </div>
   );

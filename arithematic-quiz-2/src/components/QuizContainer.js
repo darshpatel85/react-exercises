@@ -1,7 +1,9 @@
-import Quiz from "./Quiz";
-import QuizContextProvider from "../context/QuizContext";
-import QuizCreateForm from "./QuizCreateForm";
 import { useState } from "react";
+
+import Quiz from "./Quiz";
+import QuizCreateForm from "./QuizCreateForm";
+
+import QuizContextProvider from "../context/QuizContext";
 
 export default function App() {
   const [quizzes, setQuizzes] = useState([]);
