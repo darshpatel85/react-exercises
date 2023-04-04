@@ -1,6 +1,8 @@
 import React, { useState } from "react";
+
 import "./form-styles.css";
-import { validationRules } from "./validationUtils";
+
+import { validationRules } from "./utils";
 
 const defaultFormData = {
   loginId: "",
@@ -9,7 +11,7 @@ const defaultFormData = {
   timeZone: "",
   homePageURL: "",
   aboutMe: "",
-  receiveNotification: false
+  receiveNotification: false,
 };
 
 const defaultErrorMsg = {
@@ -19,11 +21,11 @@ const defaultErrorMsg = {
   timeZone: "",
   homePageURL: "",
   aboutMe: "",
-  receiveNotification: ""
+  receiveNotification: "",
 };
 const RegistrationForm = () => {
-  const [formData, setFormData] = useState({ ...defaultFormData });
-  const [errorMsg, setErrorMsg] = useState({ ...defaultErrorMsg });
+  const [formData, setFormData] = useState(defaultFormData);
+  const [errorMsg, setErrorMsg] = useState(defaultErrorMsg);
 
   const handleInputChange = (event) => {
     let value;
@@ -40,21 +42,18 @@ const RegistrationForm = () => {
     const copyErrorMessage = { ...defaultErrorMsg };
     let isValid = true;
     Object.entries(formData).forEach(([key, value]) => {
-      const validationObject = validationRules[key];
-      if (validationObject) {
-        const { validate, message } = validationObject.validate(value);
-        if (!validate) {
-          isValid = false;
-          copyErrorMessage[key] = message;
-        }
+      const { validate, message } = validationRules(key, value);
+      if (!validate) {
+        isValid = false;
+        copyErrorMessage[key] = message;
       }
     });
     if (!isValid) {
-      setErrorMsg({ ...copyErrorMessage });
+      setErrorMsg(copyErrorMessage);
     } else {
       alert("Form submitted!");
-      setFormData({ ...defaultFormData });
-      setErrorMsg({ ...defaultErrorMsg });
+      setFormData(defaultFormData);
+      setErrorMsg(defaultErrorMsg);
     }
   };
 

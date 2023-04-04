@@ -1,26 +1,25 @@
 const NAME_REGEX = /^[a-zA-Z ]+$/;
-const EMAIL_REGEX = /^[a-zA-Z]([\w!#$%&'*+\-\/=?^`{|}~]+\.?)+@([a-zA-Z0-9\-]+\.)+[a-zA-Z]+$/;
-const URL_REGEX = /^((http(s)?):\/\/(www)?([a-zA-Z\-0-9]+\.?)+([a-zA-Z0-9]+)(:\d+)?)/;
+const EMAIL_REGEX =
+  /^[a-zA-Z]([\w!#$%&'*+\-\/=?^`{|}~]+\.?)+@([a-zA-Z0-9\-]+\.)+[a-zA-Z]+$/;
+const URL_REGEX =
+  /^((http(s)?):\/\/(www)?([a-zA-Z\-0-9]+\.?)+([a-zA-Z0-9]+)(:\d+)?)/;
 
-// object for validation rules
 // key will be the name of field
 // create validate function for checking validation
 // Return :
 // validate : true if all correct false otherwise
 // message : if false return message, undefined otherwise
 
-export const validationRules = {
-  loginId: {
-    validate: (input) => {
+export const validationRules = (key, input) => {
+  switch (key) {
+    case "loginId": {
       const inputValue = input.trim();
       if (!inputValue) {
         return { validate: false, message: "Login Id can't be empty" };
       }
       return { validate: true };
     }
-  },
-  email: {
-    validate: (input) => {
+    case "email": {
       const inputValue = input.trim();
       if (!inputValue) {
         return { validate: false, message: "Email can't be empty" };
@@ -28,14 +27,12 @@ export const validationRules = {
       if (!EMAIL_REGEX.test(inputValue)) {
         return {
           validate: false,
-          message: "Please enter valid email address"
+          message: "Please enter valid email address",
         };
       }
       return { validate: true };
     }
-  },
-  name: {
-    validate: (input) => {
+    case "name": {
       const inputValue = input.trim();
       if (!inputValue) {
         return { validate: false, message: "Name can't be empty" };
@@ -43,23 +40,19 @@ export const validationRules = {
       if (!NAME_REGEX.test(inputValue)) {
         return {
           validate: false,
-          message: "Please enter valid name"
+          message: "Please enter valid name",
         };
       }
       return { validate: true };
     }
-  },
-  timeZone: {
-    validate: (input) => {
+    case "timeZone": {
       const inputValue = input.trim();
       if (!inputValue) {
         return { validate: false, message: "Select TimeZone" };
       }
       return { validate: true };
     }
-  },
-  homePageURL: {
-    validate: (input) => {
+    case "homePageURL": {
       const inputValue = input.trim();
       if (!inputValue) {
         return { validate: false, message: "URL can't be empty" };
@@ -67,32 +60,32 @@ export const validationRules = {
       if (!URL_REGEX.test(inputValue)) {
         return {
           validate: false,
-          message: "Please enter valid HomePage URL"
+          message: "Please enter valid HomePage URL",
         };
       }
       return { validate: true };
     }
-  },
-  aboutMe: {
-    validate: (input) => {
+
+    case "aboutMe": {
       const inputValue = input.trim();
       if (inputValue.length < 50) {
         return {
           validate: false,
-          message: "Please write atleast 50 character in About Me"
+          message: "Please write atleast 50 character in About Me",
         };
       }
       return { validate: true };
     }
-  },
-  receiveNotification: {
-    validate: (input) => {
+    case "receiveNotification": {
       if (!input) {
         return {
           validate: false,
-          message: "Please accept receive notification."
+          message: "Please accept receive notification.",
         };
       }
+      return { validate: true };
+    }
+    default: {
       return { validate: true };
     }
   }
