@@ -22,7 +22,7 @@ export default function App() {
   );
 
   const filteredUsers = useMemo(() => {
-    if (search.length === 0) return [...usersData];
+    if (search.length === 0) return usersData;
     return usersData.filter(({ firstName, lastName, email }) => {
       if (firstName.includes(search)) {
         return true;

@@ -5,16 +5,31 @@ import { v4 as uuid } from "uuid";
 
 import { validationRules } from "./utils";
 
-const defaultUserDetails = {
-  firstName: "",
-  lastName: "",
-  email: ""
-};
-const defaultErrorMessage = {
-  firstName: "",
-  lastName: "",
-  email: ""
-};
+const formFields = [
+  {
+    name: "firstName",
+    type: "text",
+    label: "First Name",
+  },
+  {
+    name: "lastName",
+    type: "text",
+    label: "Last Name",
+  },
+  {
+    name: "email",
+    type: "email",
+    label: "Email",
+  },
+];
+const defaultUserDetails = formFields.reduce(
+  (acc, cur) => ({ ...acc, [cur.name]: "" }),
+  {}
+);
+const defaultErrorMessage = formFields.reduce(
+  (acc, cur) => ({ ...acc, [cur.name]: "" }),
+  {}
+);
 
 const AddUserForm = ({ addUser }) => {
   const [userDetails, setUserDetails] = useState(defaultUserDetails);
@@ -36,58 +51,30 @@ const AddUserForm = ({ addUser }) => {
       }
     });
     if (!isValid) {
-      setErrorMsg(copyErrorMessage);
-    } else {
-      addUser({ ...userDetails, id: uuid() });
-      setUserDetails(defaultUserDetails);
-      setErrorMsg(defaultErrorMessage);
+      return setErrorMsg(copyErrorMessage);
     }
+    addUser({ ...userDetails, id: uuid() });
+    setUserDetails(defaultUserDetails);
+    setErrorMsg(defaultErrorMessage);
   };
   return (
     <Form onSubmit={handleSubmit}>
-      <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Email address</Form.Label>
-        <Form.Control
-          value={userDetails.email}
-          onChange={handleChange}
-          type="email"
-          name="email"
-          placeholder="Enter email"
-          isInvalid={!!errorMsg.email}
-        />
-        <Form.Control.Feedback type="invalid">
-          {errorMsg.email}
-        </Form.Control.Feedback>
-      </Form.Group>
-
-      <Form.Group className="mb-3" controlId="formBasicPassword">
-        <Form.Label>FirstName</Form.Label>
-        <Form.Control
-          value={userDetails.firstName}
-          onChange={handleChange}
-          type="text"
-          name="firstName"
-          placeholder="FirstName"
-          isInvalid={!!errorMsg.firstName}
-        />
-        <Form.Control.Feedback type="invalid">
-          {errorMsg.firstName}
-        </Form.Control.Feedback>
-      </Form.Group>
-      <Form.Group className="mb-3" controlId="formBasicPassword">
-        <Form.Label>LastName</Form.Label>
-        <Form.Control
-          value={userDetails.lastName}
-          onChange={handleChange}
-          type="text"
-          name="lastName"
-          placeholder="LastName"
-          isInvalid={!!errorMsg.lastName}
-        />
-        <Form.Control.Feedback type="invalid">
-          {errorMsg.lastName}
-        </Form.Control.Feedback>
-      </Form.Group>
+      {formFields.map(({ name, type, label }) => (
+        <Form.Group className="mb-3">
+          <Form.Label>{label}</Form.Label>
+          <Form.Control
+            value={userDetails[name]}
+            onChange={handleChange}
+            type={type}
+            name={name}
+            placeholder={`Enter ${label}`}
+            isInvalid={!!errorMsg[name]}
+          />
+          <Form.Control.Feedback type="invalid">
+            {errorMsg[name]}
+          </Form.Control.Feedback>
+        </Form.Group>
+      ))}
       <Button variant="primary" type="submit">
         Add User
       </Button>
