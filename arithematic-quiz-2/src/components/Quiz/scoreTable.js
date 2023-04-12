@@ -23,7 +23,7 @@ const ScoreTable = ({ title, data }) => (
                   <td>
                     {leftOperand} {operator} {rightOperand}
                   </td>
-                  <td>{response ? response : "NA"}</td>
+                  <td>{response || "NA"}</td>
                   <td>{answer}</td>
                 </tr>
               )

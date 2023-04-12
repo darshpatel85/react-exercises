@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 import Form from "react-bootstrap/Form";
 
@@ -13,6 +13,37 @@ const OPERATORS = ["+", "-", "*", "/"];
 
 const QuizCreateForm = ({ addQuiz }) => {
   const [quizData, setQuizData] = useState(defaultQuizData);
+
+  const formFields = [
+    {
+      name: "minLimit",
+      label: "Min Limit",
+      otherProps: {
+        max: quizData.maxLimit,
+      },
+    },
+    {
+      name: "maxLimit",
+      label: "Max Limit",
+      otherProps: {
+        min: quizData.minLimit,
+      },
+    },
+    {
+      name: "timeLimit",
+      label: "Timer",
+      otherProps: {
+        min: "1",
+      },
+    },
+    {
+      name: "questionCount",
+      label: "No of Question",
+      otherProps: {
+        min: "1",
+      },
+    },
+  ];
 
   const handleChange = (e) => {
     const { name, value, checked } = e.target;
@@ -36,7 +67,7 @@ const QuizCreateForm = ({ addQuiz }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     addQuiz({ ...quizData, id: Date.now() });
-    setQuizData({ ...defaultQuizData });
+    setQuizData(defaultQuizData);
   };
 
   return (
@@ -46,50 +77,24 @@ const QuizCreateForm = ({ addQuiz }) => {
         <br />
         <Form onSubmit={handleSubmit}>
           <div className="row">
-            <Form.Group className="col-md-6  mb-3" controlId="minLimit">
-              <Form.Label>Min Limit</Form.Label>
-              <Form.Control
-                value={quizData.minLimit}
-                onChange={handleChange}
-                type="number"
-                max={quizData.maxLimit}
-                name="minLimit"
-                required
-              />
-            </Form.Group>
-            <Form.Group className="col-md-6  mb-3" controlId="maxLimit">
-              <Form.Label>Max Limit</Form.Label>
-              <Form.Control
-                value={quizData.maxLimit}
-                onChange={handleChange}
-                type="number"
-                min={quizData.minLimit}
-                name="maxLimit"
-                required
-              />
-            </Form.Group>
-            <Form.Group className="col-md-6  mb-3" controlId="questionCount">
-              <Form.Label>No of Question</Form.Label>
-              <Form.Control
-                value={quizData.questionCount}
-                onChange={handleChange}
-                type="number"
-                name="questionCount"
-                min="1"
-                required
-              />
-            </Form.Group>
-            <Form.Group className="col-md-6  mb-3" controlId="timeLimit">
-              <Form.Label>Timer</Form.Label>
-              <Form.Control
-                value={quizData.timeLimit}
-                onChange={handleChange}
-                type="number"
-                name="timeLimit"
-                min="1"
-                required
-              />
-            </Form.Group>
+            {formFields.map(({ name, label, otherProps }) => (
+              <Form.Group
+                key={name}
+                className="col-md-6  mb-3"
+                controlId="minLimit"
+              >
+                {console.log("rerended")}
+                <Form.Label>{label}</Form.Label>
+                <Form.Control
+                  value={quizData[name]}
+                  onChange={handleChange}
+                  type="number"
+                  name={name}
+                  required
+                  {...otherProps}
+                />
+              </Form.Group>
+            ))}
             <Form.Group className="col-md-6 mb-3" controlId="operations">
               <Form.Label>Operations</Form.Label>
               {OPERATORS.map((operator) => (

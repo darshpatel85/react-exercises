@@ -9,9 +9,7 @@ const QuestionBox = ({ resetTime, timer }) => {
   const [answerInput, setAnswerInput] = useState("");
 
   const { leftOperand, rightOperand, operator } = useMemo(
-    () => ({
-      ...questions[currentQuestionIndex],
-    }),
+    () => questions[currentQuestionIndex],
     [currentQuestionIndex, questions]
   );
 

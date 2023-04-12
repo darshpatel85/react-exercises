@@ -8,9 +8,7 @@ import QuizContextProvider from "../context/QuizContext";
 export default function App() {
   const [quizzes, setQuizzes] = useState([]);
 
-  const addQuiz = (newQuiz) => {
-    setQuizzes([...quizzes, newQuiz]);
-  };
+  const addQuiz = (newQuiz) => setQuizzes([...quizzes, newQuiz]);
 
   return (
     <>

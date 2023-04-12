@@ -19,9 +19,7 @@ const GameBox = () => {
     return clearTimer;
   }, []);
 
-  const resetTime = () => {
-    setTimer(timeLimit);
-  };
+  const resetTime = () => setTimer(timeLimit);
 
   return (
     <div className="col-md-12">
