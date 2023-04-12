@@ -83,7 +83,6 @@ const QuizCreateForm = ({ addQuiz }) => {
                 className="col-md-6  mb-3"
                 controlId="minLimit"
               >
-                {console.log("rerended")}
                 <Form.Label>{label}</Form.Label>
                 <Form.Control
                   value={quizData[name]}

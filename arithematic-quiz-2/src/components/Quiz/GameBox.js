@@ -13,9 +13,9 @@ const GameBox = () => {
     const timerFunction = () => {
       setTimer((timer) => timer - 1);
     };
-    const clearTimer = () => clearInterval(timerId);
-
     const timerId = setInterval(timerFunction, 1000);
+
+    const clearTimer = () => clearInterval(timerId);
     return clearTimer;
   }, []);
 
